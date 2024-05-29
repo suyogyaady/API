@@ -1,4 +1,5 @@
 const path = require('path')
+const productModel = require('../models/productModel')
 
 const createProduct = async (req, res) => {
 
@@ -42,7 +43,22 @@ const createProduct = async (req, res) => {
     // 3. Move to that directory (await, try-catch)
     try{
         await productImage.mv(imageUploadPath)
-        res.send("Image uploaded")
+        
+        // save to database
+        const newProduct  = new productModel({
+            productName : productName,
+            productPrice : productPrice,
+            productCategory : productCategory,
+            productDescription : productDescription,
+            productImage : imageName
+
+        })
+        const product = await newProduct.save()
+        res.status(201).json({
+            "success" : true,
+            "message" : "Product created successfully",
+            "data" : product
+        })
 
     } catch (error) {
         console.log(error)
@@ -55,6 +71,30 @@ const createProduct = async (req, res) => {
     
 };
 
+// Fetch all products
+const getAllProducts = async(req, res) => {
+    //try catch
+    try{
+        const allProducts = await productModel.find({})
+        res.status(201).json({
+            "success" : true,
+            "message" : "Product Created Successfully",
+            "products" : allProducts
+        })
+
+    } catch(error){
+        console.log(error)
+        res.status(500).json({
+            "success" : false,
+            "message" : "Interval server error",
+            "error" : error
+        })
+    }
+    // fetch all products
+    //send response
+}
+
 module.exports = {
-    createProduct
+    createProduct,
+    getAllProducts
 };

@@ -23,6 +23,9 @@ app.use(express.json())
 //config form data
 app.use(acceptFormdata())
 
+// make a static public folder
+app.use(express.static("./public"))
+
 // Connecting to database
 connectDatabase()
 
