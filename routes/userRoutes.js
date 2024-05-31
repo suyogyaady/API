@@ -8,6 +8,8 @@ router.post('/create', userController.createUser)
 router.post('/login', userController.loginUser)
 
 
+
+
 // exporting the routerr
 module.exports = router
 
