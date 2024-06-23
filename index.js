@@ -38,7 +38,7 @@ const PORT = process.env.PORT;
 // Endpoints : POST, GET, PUT, DELETE
 
 app.get('/test', (req, res)=>{
-    res.send("Test API is Woriking!.....")
+    res.send("Test API is Working!")
 })
 
 
@@ -60,3 +60,6 @@ app.use('/api/product', require('./routes/productRoutes'))
 app.listen(PORT, ()=>{
     console.log(`Server is Running on port ${PORT}!`)
 })
+
+//exporting
+module.exports = app;

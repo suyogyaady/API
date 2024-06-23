@@ -78,39 +78,6 @@ const createUser = async (req, res) => {
     // 5.2.4 
 
 }
-// write a logic for login
-// const login = async (req, res) => {
-//     const { email, password } = req.body
-
-//     if (!email && !password) {
-//         return res
-//             .status(400)
-//             .json({ success: false, message: "Fill in all the required fields" })
-//     }
-//     try {
-//         const userExists = await User.findOne({ email })
-//         if (!userExists) {
-//             return res
-//                 .status(400)
-//                 .json({ success: false, message: "Invalid email address" })
-//         }
-//         // converrt the hassed  password using bcrypt
-//         const user = await bcrypt.compare(password, userExists.password)
-//         if (!user) {
-//             return res
-//                 .status(401)
-//                 .json({ success: false, message: "Invalid email or password!!" })
-//         } else {
-//             return res
-//                 .status(200)
-//                 .json({ success: true, message: "Logged in successfull!" })
-//         }
-//     } catch (error) {
-//         res
-//             .status(500)
-//         .json({ success: false, message: "Internal server error:${error}"})
-//     }
-// }
 
 
 // Login Function
@@ -158,7 +125,7 @@ const loginUser= async (req,res)=>{
 
         // token (generate - user data + KEY)
         const token = await jwt.sign(
-            {id : user._id},
+            {id : user._id, isAdmin: user.isAdmin},
             process.env.JWT_SECRET
         )
 
