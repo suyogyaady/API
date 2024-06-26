@@ -22,7 +22,9 @@ describe('API testing', () => {
     });
     // get all products testing
     it('GET Products | Fetch all products', async () => {
-        const response = await request(app).get('/api/product/get_all_products');
+
+
+        const response = await request(app).get('/api/product/get_all_products').set('authorization', `Bearer ${token}`)
         expect(response.statusCode).toBe(201);
         expect(response.body).toBeDefined();
         expect(response.body.message).toEqual('Product Created Successfully');

@@ -22,6 +22,19 @@ const userSchema = new mongoose.Schema({
     isAdmin : {
         type: Boolean,
         default: false
+    },
+    phone : {
+        type: Number,
+        required : true,
+        unique: true
+    },
+    resetPasswordOtp : {
+        type: Number,
+        default: null
+    },
+    resetPasswordExpires : {
+        type : Date,
+        default: null
     }
 
 })

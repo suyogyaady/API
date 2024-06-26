@@ -188,13 +188,13 @@ const updateProduct = async (req, res) => {
             req.body.productImage = imageName; //image uploaded (generated name)
 
             //if image is uploaded and req.body is assingned
-            if(req.body.productImage){
+            if (req.body.productImage) {
 
                 // finding existing product
                 const existingProduct = await productModel.findById(req.params.id)
 
                 //searching in the directory/folder
-                const oldImagePath =  path.join(__dirname, `../public/products/${existingProduct.productImage}`)
+                const oldImagePath = path.join(__dirname, `../public/products/${existingProduct.productImage}`)
 
                 // delete from file system
                 fs.unlinkSync(oldImagePath)
@@ -204,9 +204,9 @@ const updateProduct = async (req, res) => {
         // update the data
         const updatedProduct = await productModel.findByIdAndUpdate(req.params.id, req.body)
         res.status(201).json({
-            success : true,
-            message : "Product updated !",
-            product : updatedProduct
+            success: true,
+            message: "Product updated !",
+            product: updatedProduct
         })
 
     } catch (error) {
@@ -222,10 +222,51 @@ const updateProduct = async (req, res) => {
 
 }
 
+//Pagination
+const paginationProducts = async (req, res) => {
+
+    // requesting page no
+    const pageNo = req.query.page || 1;
+
+    // result per page
+    const resultPerPage = 2
+
+    try {
+        //fing all products, skip, limit
+        const products = await productModel.find({})
+            .skip((pageNo - 1) * resultPerPage)
+            .limit(resultPerPage)
+
+        // if page 6 is requested, result 0 (No data)
+        if(products.length === 0) {
+            return res.status(400).json({
+            'success': false,
+            'message': 'No Products Found'
+            })
+        }
+
+        //response
+        res.status(201).json({
+            'success': true,
+            'message': 'product Fetched',
+            'products': products
+            })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            'success': false,
+            'message': 'Internal Server Error'
+        })
+    }
+
+}
+
 module.exports = {
     createProduct,
     getAllProducts,
     getSingleProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    paginationProducts
 };
