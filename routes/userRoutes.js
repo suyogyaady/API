@@ -7,6 +7,9 @@ router.post('/create', userController.createUser)
 // Creating login route
 router.post('/login', userController.loginUser)
 
+//forgot password
+router.post('/forgot_password', userController.forgotPassword)
+
 
 
 
